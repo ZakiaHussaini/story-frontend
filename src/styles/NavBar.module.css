@@ -1,0 +1,22 @@
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap');
+
+
+.NavBar {
+    background-color: #ffffff;
+    border: 1px solid #dadadf;
+  }
+
+
+  .logo {
+    font-family: 'Pacifico', cursive;
+    color: orangered;
+    
+  }
+.NavLink {
+  padding: 5px;
+}
+
+.Active i {
+  color: #2142b2;
+}
+

@@ -1,27 +1,29 @@
 import React from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
-
-
+import styles from '../styles/NavBar.module.css';
+import { NavLink } from 'react-router-dom';
 
 
 const NavBar = () => {
   return (
     <div>
-    <Navbar expand="md" fixed='top' >
+    <Navbar expand="md" fixed='top' className={styles.NavBar}>
       <Container>
-        <Navbar.Brand >Story Blog</Navbar.Brand>
+        <NavLink to='/'>
+        <Navbar.Brand className={styles.logo}>Story Blog</Navbar.Brand>
+        </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="m-auto">
-            <Nav.Link >
+            <NavLink to='/' exact className={styles.NavLink} activeClassName={styles.Active} >
               <i className="fas fa-home"></i>Home
-            </Nav.Link>
-            <Nav.Link > 
+            </NavLink>
+            <NavLink to='signin'  className={styles.NavLink} activeClassName={styles.Active}> 
               <i className="fas fa-sign-in-alt"></i>Sign in
-            </Nav.Link>
-            <Nav.Link > 
+            </NavLink>
+            <NavLink to='signup'  className={styles.NavLink} activeClassName={styles.Active}> 
               <i className="fas fa-user-plus"></i>Sign up
-            </Nav.Link>
+            </NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -30,4 +32,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar
+export default NavBar 
