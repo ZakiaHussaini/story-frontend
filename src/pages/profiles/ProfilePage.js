@@ -73,9 +73,9 @@ function ProfilePage() {
             src={profile?.image}
           />
         </Col>
-        <Col lg={6}>
+        <Col lg={6} >
           <h3 className="m-2">{profile?.owner}</h3>
-          <Row className="justify-content-center no-gutters">
+          <Row className={` ${styles.profContainer} justify-content-center no-gutters `}>
             <Col xs={3} className="my-2">
               <div>{profile?.stories_count}</div>
               <div>stories</div>

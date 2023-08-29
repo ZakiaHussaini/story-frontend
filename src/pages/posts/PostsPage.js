@@ -1,37 +1,63 @@
 import React, { useEffect, useState } from "react";
-
-import Form from "react-bootstrap/Form";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
-
-
-import Asset from "../../components/Asset";
-
-import appStyles from "../../App.module.css";
-import styles from "../../styles/PostsPage.module.css";
 import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
-
+import Asset from "../../components/Asset";
+import appStyles from "../../App.module.css";
+import styles from "../../styles/PostsPage.module.css";
+import { Link } from "react-router-dom";
 import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import Post from "./Post";
 import PopularProfiles from "../profiles/PopularProfiles";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 
 function PostsPage({ message, filter = "" }) {
   const [posts, setPosts] = useState({ results: [] });
+  const [categories, setCategories] = useState([]);
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
-
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [query, setQuery] = useState("");
+
+  const handleCategoryClick = async (categoryId) => {
+    setSelectedCategory(categoryId);
+    try {
+      let url = "/stories/";
+      if (categoryId) {
+        url = `/categories/${categoryId}/stories/`;
+      }
+      const { data } = await axiosReq.get(`${url}?${filter}search=${query}`);
+      setPosts(data);
+      setHasLoaded(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const { data } = await axiosReq.get(`/stories/?${filter}search=${query}`);
+        let url = "/stories/";
+        if (selectedCategory) {
+          url = `/categories/${selectedCategory}/stories/`;
+        }
+        const { data } = await axiosReq.get(`${url}?${filter}search=${query}`);
         setPosts(data);
         setHasLoaded(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axiosReq.get("/categories/");
+        console.log("Categories response:", data);
+        setCategories(data.results);
       } catch (err) {
         console.log(err);
       }
@@ -40,18 +66,20 @@ function PostsPage({ message, filter = "" }) {
     setHasLoaded(false);
     const timer = setTimeout(() => {
       fetchPosts();
+      fetchCategories();
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [filter, query, pathname]);
+  }, [filter, query, selectedCategory, pathname]);
 
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <PopularProfiles  mobile />
+        <PopularProfiles mobile />
         <i className={`fas fa-search ${styles.SearchIcon}`} />
+
         <Form
           className={styles.SearchBar}
           onSubmit={(event) => event.preventDefault()}
@@ -61,9 +89,24 @@ function PostsPage({ message, filter = "" }) {
             onChange={(event) => setQuery(event.target.value)}
             type="text"
             className="mr-sm-2"
-            placeholder="Search posts"
+            placeholder="Search stories"
           />
         </Form>
+
+        <div className={styles.categories}>
+          <Link to="/" onClick={() => handleCategoryClick(null)}>
+           <span  > All </span>
+          </Link>
+          {categories.map((category) => (
+            <Link
+              key={category.id}
+              to={`/`}
+              onClick={() => handleCategoryClick(category.id) }
+            >
+             <span >{category.name} </span>
+            </Link>
+          ))}
+        </div>
 
         {hasLoaded ? (
           <>

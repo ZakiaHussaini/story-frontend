@@ -6,6 +6,44 @@
     text-align: center;
   }
   
+  .PostDetails {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+  }
+  .title {
+    border-bottom: 2px solid #DEF2F1;
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 1.2rem;
+  }
+
+  .more {
+    align-self: end;
+  }
+
+  .contents {
+    padding: 0 10px;
+    text-align: left;
+    color: rgb(57, 61, 61);
+  }
+  
+.profile {
+}
+ 
+  .readmore {
+    margin-left: 5px;
+    color: #3AAFA9;
+    cursor: pointer;
+  
+  }
+
+  .readmore:hover {
+    color: #2B7A78;
+
+  }
+
   .Post figure,
   h5 {
     margin: 0 0;
@@ -20,5 +58,18 @@
   }
   
   .HeartOutline:hover {
-    color: #f85032;
+    color: #f85032; 
+  }
+
+  .PostDetails {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .PostDetails span {
+    font-size: 11px;
+    color: gray;
+    margin-left: 0.8rem;
+
   }

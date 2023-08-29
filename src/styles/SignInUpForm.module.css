@@ -11,6 +11,11 @@
     padding: 10px;
   }
   
+  .content {
+    width: 50%; 
+  }
+
+
   .Header {
     font-style: normal;
     font-weight: bold;
@@ -19,8 +24,20 @@
     text-align: center;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #2142b2;
+    color: #3AAFA9
+    
   }
+
+  .Bright {
+    background-color: #3AAFA9;
+    
+  }
+
+  .Bright:hover {
+    background-color: #2B7A78;
+  }
+
+
   
   .Link {
     text-decoration: none;
@@ -35,6 +52,7 @@
   
   .Container {
     padding: 30px 10px;
+    margin: 0 auto;
   }
   
   .SignInCol {

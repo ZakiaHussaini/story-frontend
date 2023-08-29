@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -7,6 +7,7 @@ import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
 import { MoreDropdown } from '../../components/MoreDropdown'
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 
 const Post = (props) => {
   const {
@@ -28,6 +29,8 @@ const Post = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const history = useHistory();
+  const [showFullContent, setShowFullContent] = useState(false);
+  const MAX_CONTENT_LENGTH = 150;
 
   const handleEdit = () => {
     history.push(`/stories/${id}/edit`);
@@ -41,6 +44,7 @@ const Post = (props) => {
       console.log(err);
     }
   };
+
   const handleLike = async () => {
     try {
       const { data } = await axiosRes.post("/likes/", { story: id });
@@ -56,7 +60,6 @@ const Post = (props) => {
       console.log(err);
     }
   };
-
 
   const handleUnlike = async () => {
     try {
@@ -74,27 +77,50 @@ const Post = (props) => {
     }
   };
 
-  
+
+
+  const truncatedContent = showFullContent 
+    ? content
+    : content && content.slice(0, MAX_CONTENT_LENGTH);
+
   return (
     <Card className={styles.Post}>
       <Card.Body>
-        <Media className="align-items-center justify-content-between">
+        
+        <Media >
+        <div className={styles.PostDetails}>
+        <div className={`${styles.more}`} >
+            {is_owner && postPage && (
+              <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} />
+            )}
+            </div>
+          <div className={styles.profile}>
           <Link to={`/profiles/${profile_id}`}>
             <Avatar src={profile_image} height={55} />
             {owner}
           </Link>
-          <div className="d-flex align-items-center">
-            <span>{updated_at}</span>
-            {is_owner && postPage && <MoreDropdown handleEdit={handleEdit} handleDelete={handleDelete} /> }
+          <span>{updated_at}</span>
+          </div>
+          
           </div>
         </Media>
+        
+
+
       </Card.Body>
-      <Link to={`/stories/${id}`}>
-        <Card.Img src={image} alt={title} />
-      </Link>
       <Card.Body>
-        {title && <Card.Title className="text-center">{title}</Card.Title>}
-        {content && <Card.Text>{content}</Card.Text>}
+        {title && <Card.Title className={`${styles.title} text-center`}>{title}</Card.Title>}
+        <Card.Text className={`${styles.contents} ${showFullContent ? "" : styles.truncated}`}>
+          {truncatedContent}
+          {content && content.length > MAX_CONTENT_LENGTH && (
+            <span className={styles.readmore} onClick={() => setShowFullContent(!showFullContent)}>
+              {showFullContent ? "Read Less" : "Read More"}
+            </span>
+          )}
+        </Card.Text>
+        <Link to={`/stories/${id}`}>
+          <Card.Img src={image} alt={title} />
+        </Link>
         <div className={styles.PostBar}>
           {is_owner ? (
             <OverlayTrigger

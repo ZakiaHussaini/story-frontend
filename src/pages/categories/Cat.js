@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -6,7 +7,6 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
-import axios from 'axios';
 
 import Asset from "../../components/Asset";
 
@@ -19,34 +19,26 @@ import btnStyles from "../../styles/Button.module.css";
 import { useHistory } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useRedirect } from "../../hooks/useRedirect";
+import axios from 'axios';
 
 function PostCreateForm() {
   useRedirect("loggedOut");
 
   const [errors, setErrors] = useState({});
-  const [categories, setCategories] = useState([]);
+
   const [postData, setPostData] = useState({
     title: "",
     content: "",
     image: "",
-    category: "", // Add category field to postData state
   });
-
-  const { title, content, image, category } = postData;
+  const { title, content, image} = postData;
 
   const imageInput = useRef(null);
   const history = useHistory();
 
-  useEffect(() => {
-    // Fetch categories from the URL and update the state
-    axios.get("/categories/")
-      .then(response => {
-        setCategories(response.data.results);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+
+
+
 
   const handleChange = (event) => {
     setPostData({
@@ -69,11 +61,10 @@ function PostCreateForm() {
     event.preventDefault();
     const formData = new FormData();
 
-    formData.append("category", category); 
     formData.append("title", title);
     formData.append("content", content);
     formData.append("image", imageInput.current.files[0]);
-
+  
     try {
       const { data } = await axiosReq.post("/stories/", formData);
       history.push(`/stories/${data.id}`);
@@ -102,22 +93,9 @@ function PostCreateForm() {
         </Alert>
       ))}
 
-      <Form.Group>
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          as="select"
-          name="category"
-          value={category}
-          onChange={handleChange}
-        >
-          <option value="">Select a category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
+     
+  
+      
 
       <Form.Group>
         <Form.Label>Content</Form.Label>
@@ -158,7 +136,7 @@ function PostCreateForm() {
               {image ? (
                 <>
                   <figure>
-<Image className={appStyles.Image} src={image} rounded />
+                    <Image className={appStyles.Image} src={image} rounded />
                   </figure>
                   <div>
                     <Form.Label
@@ -180,7 +158,7 @@ function PostCreateForm() {
                   />
                 </Form.Label>
               )}
-
+ 
               <Form.File
                 id="image-upload"
                 accept="image/*"

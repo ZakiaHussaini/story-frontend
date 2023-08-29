@@ -25,7 +25,7 @@ const Profile = (props) => {
           <Avatar src={image} height={imageSize} />
         </Link>
       </div>
-      <div className={`mx-2 ${styles.WordBreak}`}>
+      <div className={`mx-2 ${styles.WordBreak} ${styles.name}`}>
         <strong>{owner}</strong>
       </div>
       <div className={`text-right ${!mobile && "ml-auto"}`}>
@@ -41,7 +41,7 @@ const Profile = (props) => {
             </Button>
           ) : (
             <Button
-              className={`${btnStyles.Button} ${btnStyles.Black}`}
+              className={`${btnStyles.Button} ${btnStyles.Bright}`}
               onClick={() => handleFollow(profile)}
             >
               follow

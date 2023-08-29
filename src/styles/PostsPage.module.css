@@ -16,3 +16,22 @@
     cursor: default;
     color: #cfced3;
   }
+
+
+  .categories {
+    background-color: white;
+    border: 1px solid #dadadf;
+    border-bottom: none;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+ .categories span:hover {
+  color: #2B7A78;
+ }
+

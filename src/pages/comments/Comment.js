@@ -42,13 +42,25 @@ const Comment = (props) => {
   return (
     <>
       <hr />
-      <Media>
-        <Link to={`/profiles/${profile_id}`}>
+      <Media className={styles.mainDiv}>
+      <div>
+      {is_owner && !showEditForm && (
+          <MoreDropdown
+            handleEdit={() => setShowEditForm(true)}
+            handleDelete={handleDelete}
+          />
+        )}
+      </div>
+       <div>
+       <Link to={`/profiles/${profile_id}`}>
           <Avatar src={profile_image} />
         </Link>
+       </div>
         <Media.Body className="align-self-center ml-2">
+          <div>
           <span className={styles.Owner}>{owner}</span>
           <span className={styles.Date}>{updated_at}</span>
+          </div>
           {showEditForm ? (
             <CommentEditForm
               id={id}
@@ -59,15 +71,11 @@ const Comment = (props) => {
               setShowEditForm={setShowEditForm}
             />
           ) : (
-            <p>{content}</p>
+           <div> <p>{content}</p></div>
           )}
+          
         </Media.Body>
-        {is_owner && !showEditForm && (
-          <MoreDropdown
-            handleEdit={() => setShowEditForm(true)}
-            handleDelete={handleDelete}
-          />
-        )}
+        
       </Media>
     </>
   );

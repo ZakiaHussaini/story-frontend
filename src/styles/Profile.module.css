@@ -1,3 +1,9 @@
 .WordBreak {
     word-break: break-all;
   }
+
+  .name {
+    color: gray;
+  }
+
+ 
