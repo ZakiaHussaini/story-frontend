@@ -1,0 +1,127 @@
+
+/* slick-default.css */
+
+/* Default styles for the slider */
+
+.slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .slick-list {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    left: 20px;
+  }
+  
+  .slick-slide {
+    position: relative;
+    display: none;
+    float: left;
+    height: 100%;
+    min-height: 1px;
+  }
+  
+  .slick-prev,
+  .slick-next {
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    transform: translate(0, -50%);
+    font-size: 0;
+    line-height: 0;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: transparent;
+  }
+  
+  .slick-prev {
+    left: 5px;
+  }
+  
+  .slick-next {
+    right: 5px;
+  }
+  
+  /* Additional styles for the arrow icons */
+  .slick-prev:before,
+  .slick-next:before {
+    font-family: "slick";
+    font-size: 20px;
+    line-height: 1;
+    color: #2B7A78;
+    opacity: 0.75;
+  }
+  
+  .slick-prev:before {
+    content: "←";
+  }
+  
+  .slick-next:before {
+    content: "→";
+  }
+  
+  .slick-dots {
+    position: absolute;
+    bottom: 10px;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .slick-dots li {
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .slick-dots li button {
+    border: 0;
+    background: transparent;
+    display: block;
+    width: 10px;
+    height: 10px;
+    padding: 5px;
+    outline: none;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+    cursor: pointer;
+  }
+  
+  .slick-dots li button:before {
+    content: "•";
+    font-size: 14px;
+    line-height: 10px;
+    color: #000;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+  
+  .slick-dots li.slick-active button:before {
+    color: #000;
+    opacity: 1;
+  }
+

@@ -3,7 +3,6 @@ import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Asset from "../../components/Asset";
 import appStyles from "../../App.module.css";
-import styles from "../../styles/PostsPage.module.css";
 import { Link } from "react-router-dom";
 import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -14,6 +13,12 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import styles from "../../styles/PostsPage.module.css";
+import '../../styles/Slider.css';
+
 
 function PostsPage({ message, filter = "" }) {
   const [posts, setPosts] = useState({ results: [] });
@@ -22,9 +27,12 @@ function PostsPage({ message, filter = "" }) {
   const { pathname } = useLocation();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [query, setQuery] = useState("");
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
 
   const handleCategoryClick = async (categoryId) => {
     setSelectedCategory(categoryId);
+    setSelectedCategoryIndex(categoryId ? 1 : 0);
+
     try {
       let url = "/stories/";
       if (categoryId) {
@@ -93,20 +101,26 @@ function PostsPage({ message, filter = "" }) {
           />
         </Form>
 
-        <div className={styles.categories}>
+        <Slider
+          className={styles.categories}
+          slidesToShow={3}
+          slidesToScroll={1}
+          initialSlide={selectedCategoryIndex}
+          afterChange={setSelectedCategoryIndex}
+        >
           <Link to="/" onClick={() => handleCategoryClick(null)}>
-           <span  > All </span>
+            <span>All</span>
           </Link>
           {categories.map((category) => (
             <Link
               key={category.id}
               to={`/`}
-              onClick={() => handleCategoryClick(category.id) }
+              onClick={() => handleCategoryClick(category.id)}
             >
-             <span >{category.name} </span>
+              <span>{category.name}</span>
             </Link>
           ))}
-        </div>
+        </Slider>
 
         {hasLoaded ? (
           <>
