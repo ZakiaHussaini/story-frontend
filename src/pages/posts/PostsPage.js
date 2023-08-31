@@ -18,6 +18,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "../../styles/PostsPage.module.css";
 import '../../styles/Slider.css';
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
+
 
 
 function PostsPage({ message, filter = "" }) {
@@ -28,6 +30,8 @@ function PostsPage({ message, filter = "" }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [query, setQuery] = useState("");
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const currentUser = useCurrentUser();
+
 
   const handleCategoryClick = async (categoryId) => {
     setSelectedCategory(categoryId);
@@ -42,7 +46,6 @@ function PostsPage({ message, filter = "" }) {
       setPosts(data);
       setHasLoaded(true);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -57,17 +60,14 @@ function PostsPage({ message, filter = "" }) {
         setPosts(data);
         setHasLoaded(true);
       } catch (err) {
-        console.log(err);
       }
     };
 
     const fetchCategories = async () => {
       try {
         const { data } = await axiosReq.get("/categories/");
-        console.log("Categories response:", data);
         setCategories(data.results);
       } catch (err) {
-        console.log(err);
       }
     };
 
@@ -80,7 +80,7 @@ function PostsPage({ message, filter = "" }) {
     return () => {
       clearTimeout(timer);
     };
-  }, [filter, query, selectedCategory, pathname]);
+  }, [filter, query, selectedCategory, pathname,currentUser]);
 
   return (
     <Row className="h-100">

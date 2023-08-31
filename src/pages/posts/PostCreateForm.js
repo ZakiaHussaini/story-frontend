@@ -29,7 +29,7 @@ function PostCreateForm() {
     title: "",
     content: "",
     image: "",
-    category: "", // Add category field to postData state
+    category: "", 
   });
 
   const { title, content, image, category } = postData;
@@ -38,13 +38,11 @@ function PostCreateForm() {
   const history = useHistory();
 
   useEffect(() => {
-    // Fetch categories from the URL and update the state
     axios.get("/categories/")
       .then(response => {
         setCategories(response.data.results);
       })
       .catch(error => {
-        console.log(error);
       });
   }, []);
 
@@ -78,7 +76,6 @@ function PostCreateForm() {
       const { data } = await axiosReq.post("/stories/", formData);
       history.push(`/stories/${data.id}`);
     } catch (err) {
-      console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }
